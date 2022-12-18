@@ -4,6 +4,8 @@
  */
 package memorygame;
 
+import java.util.Scanner;
+
 /**
  *
  * @author egese
@@ -33,9 +35,42 @@ public class MemoryGame {
         kartlar[3][1] = new Kart('G');
         kartlar[3][2] = new Kart('B');
         kartlar[3][3] = new Kart('C');  
+      
         
-        gametable();
+        while (isgameover()==false) {            
+            gametable();
+            predict();
+        }
         
+    }
+    public static void predict(){
+        Scanner scanner=new Scanner(System.in);
+        
+        System.out.print("First prediction enter (i and j) values with one space between i and j:");
+        int i1=scanner.nextInt();
+        int j1=scanner.nextInt();
+        
+        kartlar[i1][j1].setPrediction(true);
+        
+        System.out.print("First prediction enter (i and j) values with one space between i and j:");
+        int i2=scanner.nextInt();
+        int j2=scanner.nextInt();
+        if (kartlar[i1][j1].getValue()==kartlar[i2][j2].getValue()) {
+            kartlar[i2][j2].setPrediction(true);
+        }else{
+            kartlar[i1][j1].setPrediction(false);
+        }
+        
+    }
+    public static boolean isgameover(){
+        for (int i = 0; i < 4; i++) {
+            for (int j = 0; j < 4; j++) {
+                if (kartlar[i][j].isPrediction()==false) {
+                    return false;
+                }
+            }
+        }
+        return true;
     }
     public static void gametable(){
         System.out.println("-------------------");
